@@ -10,7 +10,7 @@
     function onReady(smart)  {
       if (smart.hasOwnProperty('patient')) {
         var patient = smart.patient;
-        var pt = patient.read();
+        var pt = patient.read(); 
         var obv = smart.patient.api.fetchAll({
                     type: 'Observation',
                     query: {
@@ -27,8 +27,7 @@
         $.when(pt, obv).done(function(patient, obv) {
           var byCodes = smart.byCodes(obv, 'code');
           var gender = patient.gender;
-          
-          var id = obv.id;
+          var pat_id = patient.id;
 
           var fname = '';
           var lname = '';
@@ -50,9 +49,7 @@
           p.fname = fname;
           p.lname = lname;
           p.height = getQuantityValueAndUnit(height[0]);
-          p.id = obv.id;
-          
-
+                    
           if (typeof systolicbp != 'undefined')  {
             p.systolicbp = systolicbp;
           }
@@ -63,6 +60,8 @@
 
           p.hdl = getQuantityValueAndUnit(hdl[0]);
           p.ldl = getQuantityValueAndUnit(ldl[0]);
+
+          p.id = pat_id;
 
           ret.resolve(p);
         });
